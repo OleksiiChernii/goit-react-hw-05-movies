@@ -14,7 +14,7 @@ export const MovieReviews = () => {
     <ul>
       {review.hasResults ? review.results.map(({ author, content, created_at }) => (
         <li key={created_at}>
-          <div>{author}</div>
+          <div><b>Author: </b>{author}</div>
           <div>{content}</div>
         </li>
       )) : <div>We don't have any revies for this movie...</div>}
