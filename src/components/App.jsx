@@ -1,30 +1,23 @@
-import { useState, useEffect } from 'react';
+import { MovieDetails } from 'pages/MovieDetails';
 import { Routes, Route } from 'react-router-dom';
-import { SharedLayout } from './SharedLayout';
-import { MovieList } from './MovieList';
-import { getTranding } from 'tmdbAPI';
-import { MovieDetails } from './MovieDetails';
+import { SharedLayout } from '../pages/SharedLayout';
 import { MovieCast } from './MovieCast';
 import { MovieReviews } from './MovieReviews';
 import { MoviesSearch } from './MoviesSearch';
+import { MoviesTranding } from './MoviesTranding';
+
 
 export const App = () => {
-  const [tranding ,setTranding] = useState([]);
-  
-  useEffect(() => {
-    getTranding().then(setTranding)
-  }, []);
-
   return (
     <Routes>
-      <Route path='/' element={<SharedLayout/>}>
-        <Route index element={<MovieList movieList={tranding}/>}/>
-        <Route path='movies' element={<MoviesSearch/>}/>
-        <Route path='movies/:movieId' element={<MovieDetails />}>
-          <Route path='cast' element={<MovieCast/>}/>
-          <Route path='reviews' element={<MovieReviews/>}/>
+      <Route path="/" element={<SharedLayout />}>
+        <Route index element={<MoviesTranding/>} />
+        <Route path="movies" element={<MoviesSearch />} />
+        <Route path="movies/:movieId" element={<MovieDetails />}>
+          <Route path="cast" element={<MovieCast />} />
+          <Route path="reviews" element={<MovieReviews />} />
         </Route>
-        <Route path='*' element={<div>Not found page</div>} />
+        <Route path="*" element={<div>Not found page</div>} />
       </Route>
     </Routes>
   );

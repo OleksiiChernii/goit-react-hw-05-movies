@@ -4,20 +4,29 @@ import { getMovieReviews } from 'tmdbAPI';
 
 export const MovieReviews = () => {
   const { movieId } = useParams();
-  const [review, setReview] = useState({hasResults: false});
+  const [review, setReview] = useState({ hasResults: false });
 
   useEffect(() => {
     getMovieReviews(movieId).then(setReview);
   }, [movieId]);
 
   return (
-    <ul>
-      {review.hasResults ? review.results.map(({ author, content, created_at }) => (
-        <li key={created_at}>
-          <div><b>Author: </b>{author}</div>
-          <div>{content}</div>
-        </li>
-      )) : <div>We don't have any revies for this movie...</div>}
-    </ul>
+    <>
+      {review.hasResults ? (
+        <ul>
+          {review.results.map(({ author, content, created_at }) => (
+            <li key={created_at}>
+              <h3>
+                Author:
+                {author}
+              </h3>
+              <div>{content}</div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div>We don't have any reviews for this movie...</div>
+      )}
+    </>
   );
 };
