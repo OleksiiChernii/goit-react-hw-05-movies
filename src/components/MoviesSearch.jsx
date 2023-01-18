@@ -6,11 +6,11 @@ import { MovieList } from './MovieList';
 export const MoviesSearch = () => {
   const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const movieName = searchParams.get('movieName');
+  const movieName = searchParams.get('movie_search');
   const handleSubmit = e => {
     e.preventDefault();
     const [input] = e.target;
-    setSearchParams({ movieName: input.value });
+    setSearchParams({ movie_search: input.value });
   };
 
   useEffect(() => {
