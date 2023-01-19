@@ -4,7 +4,7 @@ const IMG_PATH = 'https://image.tmdb.org/t/p/w500';
 export const getTranding = async () => {
   const url = `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`;
   const data = await defaultFetch(url);
-  return data.results.map(({ id, original_title }) => ({ id, original_title }));;
+  return data.results.map(({ id, original_title }) => ({ id, original_title }));
 };
 
 export const searchMovie = async (name, page = 1) => {
@@ -16,7 +16,7 @@ export const searchMovie = async (name, page = 1) => {
 export const getMovieDetails = async movieId => {
   const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=en-US`;
   const data = await defaultFetch(url);
-  const { id, title, poster_path, overview, genres, vote_average } = data;
+  const { id, title, poster_path, overview, genres, vote_average, release_date } = data;
   return {
     id,
     title,
@@ -24,6 +24,7 @@ export const getMovieDetails = async movieId => {
     overview,
     genres: genres.map(({ name }) => name).join(', '),
     vote_average,
+    year: new Date(release_date).getFullYear()
   };
 };
 

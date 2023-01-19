@@ -1,56 +1,39 @@
-import { NavLink, Outlet, useParams, useLocation } from 'react-router-dom';
-import { getMovieDetails } from '../tmdbAPI';
-import { useState, useEffect, Suspense } from 'react';
-import {
-  MovieDetailsWrapper,
-  MovieDetailsContainer,
-  MovieDetailsImageWrapper,
-} from './MovieDetails.styled';
-import { BackButton } from '../components/BackButton';
+import { useState, useEffect } from 'react';
+import { NavLink, Outlet, useParams, useNavigate } from 'react-router-dom';
+import { getMovieDetails } from 'tmdbAPI';
+import MoviesDetailsPage from './MovieDetailsPage';
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState({});
-  const location = useLocation();
-  const backLinkRef = location.state?.from ?? '/movies';
+  const navigate = useNavigate();
 
   useEffect(() => {
     getMovieDetails(movieId).then(setMovie);
   }, [movieId]);
 
-  const { poster, title, overview, vote_average, genres } = movie;
   return (
     <>
-      <BackButton to={backLinkRef}>Go Back</BackButton>
-      <MovieDetailsWrapper>
-        <MovieDetailsImageWrapper src={poster} alt={title} />
-        <MovieDetailsContainer>
-          <h2>{title}</h2>
-          <div>User score: {vote_average}</div>
-          <div>
-            <b>Overview</b>
-          </div>
-          <div>{overview}</div>
-          <div>
-            <b>Genres</b>
-          </div>
-          <div>{genres}</div>
-        </MovieDetailsContainer>
-      </MovieDetailsWrapper>
+      <button onClick={() => navigate(-1)}>Go Back</button>
+      <MoviesDetailsPage movie={movie} />
       <hr />
       <div>Additional information</div>
       <ul>
         <li>
-          <NavLink to={'cast'}>Cast</NavLink>
+          <NavLink to={'cast'} replace>
+            Cast
+          </NavLink>
         </li>
         <li>
-          <NavLink to={'reviews'}>Reviews</NavLink>
+          <NavLink to={'reviews'} replace>
+            Reviews
+          </NavLink>
         </li>
       </ul>
       <hr />
-      <Suspense fallback={<div>Loading...</div>}>
-        <Outlet />
-      </Suspense>
+      <Outlet />
     </>
   );
 };
+
+export default MovieDetails;

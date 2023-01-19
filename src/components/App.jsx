@@ -1,10 +1,12 @@
-import { MovieDetails } from 'pages/MovieDetails';
-import { Routes, Route } from 'react-router-dom';
+import { lazy } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { SharedLayout } from '../pages/SharedLayout';
 import { MovieCast } from './MovieCast';
 import { MovieReviews } from './MovieReviews';
-import { MoviesSearch } from './MoviesSearch';
-import { MoviesTranding } from './MoviesTranding';
+
+const MovieSearchPage = lazy(() => import('./MovieSearchPage'));
+const MoviesTranding = lazy(() => import('./MoviesTranding'));
+const MovieDetails = lazy(() => import('./../pages/MovieDetails'));
 
 
 export const App = () => {
@@ -12,12 +14,12 @@ export const App = () => {
     <Routes>
       <Route path="/" element={<SharedLayout />}>
         <Route index element={<MoviesTranding/>} />
-        <Route path="movies" element={<MoviesSearch />} />
+        <Route path="movies" element={<MovieSearchPage />} />
         <Route path="movies/:movieId" element={<MovieDetails />}>
           <Route path="cast" element={<MovieCast />} />
           <Route path="reviews" element={<MovieReviews />} />
         </Route>
-        <Route path="*" element={<div>Not found page</div>} />
+        <Route path="*" element={<Navigate to='/'/>} />
       </Route>
     </Routes>
   );
