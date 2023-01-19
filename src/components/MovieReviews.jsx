@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovieReviews } from 'tmdbAPI';
+import { MovieReviewsWrapper, MovieReviewsUl, MovieReviewsLi } from './MovieReviews.styled';
 
 export const MovieReviews = () => {
   const { movieId } = useParams();
@@ -11,22 +12,24 @@ export const MovieReviews = () => {
   }, [movieId]);
 
   return (
-    <>
+    <MovieReviewsWrapper>
       {review.hasResults ? (
-        <ul>
-          {review.results.map(({ author, content, created_at }) => (
-            <li key={created_at}>
+        <MovieReviewsUl>
+          {review.results.map(({ id, author, content, created_date }) => (
+            <MovieReviewsLi key={id}>
               <h3>
-                Author:
+                Author:{' "'}
                 {author}
+                {' "posted at '}
+                {created_date.toLocaleDateString()}
               </h3>
               <div>{content}</div>
-            </li>
+            </MovieReviewsLi>
           ))}
-        </ul>
+        </MovieReviewsUl>
       ) : (
         <div>We don't have any reviews for this movie...</div>
       )}
-    </>
+    </MovieReviewsWrapper>
   );
 };

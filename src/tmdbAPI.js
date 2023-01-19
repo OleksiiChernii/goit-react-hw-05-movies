@@ -16,7 +16,15 @@ export const searchMovie = async (name, page = 1) => {
 export const getMovieDetails = async movieId => {
   const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=en-US`;
   const data = await defaultFetch(url);
-  const { id, title, poster_path, overview, genres, vote_average, release_date } = data;
+  const {
+    id,
+    title,
+    poster_path,
+    overview,
+    genres,
+    vote_average,
+    release_date,
+  } = data;
   return {
     id,
     title,
@@ -24,7 +32,7 @@ export const getMovieDetails = async movieId => {
     overview,
     genres: genres.map(({ name }) => name).join(', '),
     vote_average,
-    year: new Date(release_date).getFullYear()
+    year: new Date(release_date).getFullYear(),
   };
 };
 
@@ -43,9 +51,12 @@ export const getMovieCredits = async movieId => {
 export const getMovieReviews = async movieId => {
   const url = `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${API_KEY}&language=en-US&page=1`;
   const data = await defaultFetch(url);
+  const results = data.results.map(({ id, author, content, created_at }) => {
+    return { id, author, created_date: new Date(created_at), content };
+  });
   return {
     hasResults: data.total_results !== 0,
-    results: data.results,
+    results
   };
 };
 

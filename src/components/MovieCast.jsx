@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovieCredits } from 'tmdbAPI';
+import { MovieCastUl, MovieCastLi, MovieCastImg, MovieCastDiv } from './MovieCast.styled';
 
 export const MovieCast = () => {
   const { movieId } = useParams();
@@ -11,13 +12,13 @@ export const MovieCast = () => {
   }, [movieId]);
 
   return (
-    <ul>
+    <MovieCastUl>
       {cast.map(({ id, name, src }) => (
-        <li key={id}>
-          <img src={src} alt={name} width='100'/>
-          <div>{name}</div>
-        </li>
+        <MovieCastLi key={id}>
+          <MovieCastImg src={src} alt={name}/>
+          <MovieCastDiv>{name}</MovieCastDiv>
+        </MovieCastLi>
       ))}
-    </ul>
+    </MovieCastUl>
   );
 };

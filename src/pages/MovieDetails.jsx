@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { NavLink, Outlet, useParams, useNavigate } from 'react-router-dom';
+import { Outlet, useParams, useNavigate } from 'react-router-dom';
 import { getMovieDetails } from 'tmdbAPI';
+import { MovieDetailsButton } from './MovieDetails.styled';
 import MoviesDetailsPage from './MovieDetailsPage';
+import {MovieAdditionalInfoPage} from './MovieAdditionalInfoPage'
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -14,23 +16,9 @@ const MovieDetails = () => {
 
   return (
     <>
-      <button onClick={() => navigate(-1)}>Go Back</button>
+      <MovieDetailsButton onClick={() => navigate(-1)}>Go Back</MovieDetailsButton>
       <MoviesDetailsPage movie={movie} />
-      <hr />
-      <div>Additional information</div>
-      <ul>
-        <li>
-          <NavLink to={'cast'} replace>
-            Cast
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to={'reviews'} replace>
-            Reviews
-          </NavLink>
-        </li>
-      </ul>
-      <hr />
+      <MovieAdditionalInfoPage />
       <Outlet />
     </>
   );

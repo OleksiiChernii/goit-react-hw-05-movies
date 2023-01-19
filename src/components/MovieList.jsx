@@ -1,17 +1,17 @@
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { MovieListUl, MovieListLink } from './MovieList.styled';
 
 export const MovieList = ({ movieList }) => {
   return (
-    <ul>
+    <MovieListUl>
       {movieList.map(({ id, original_title }) => (
         <li key={id}>
-          <Link to={`/movies/${id}`}>
+          <MovieListLink to={`/movies/${id}`}>
             {original_title}
-          </Link>
+          </MovieListLink>
         </li>
       ))}
-    </ul>
+    </MovieListUl>
   );
 };
 
