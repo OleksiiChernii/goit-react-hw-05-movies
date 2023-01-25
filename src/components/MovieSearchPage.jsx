@@ -1,29 +1,35 @@
-import { useEffect, useState } from "react";
-import { useLocation, useSearchParams } from "react-router-dom"
-import { searchMovie } from "tmdbAPI";
-import { MovieList } from "./MovieList"
-import MoviesSearch from "./MoviesSearch";
+import { useEffect, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import { searchMovie } from 'tmdbAPI';
+import { MovieList } from './MovieList';
+import MoviesSearch from './MoviesSearch';
 
-const MovieSearchPage = () =>{
-    const [searchParams, setSearchParams] = useSearchParams();
-    const [movies, setMovies] = useState([]);
-    const query = searchParams.get('movie_search') ?? '';
-    const location = useLocation();
+const MovieSearchPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [movies, setMovies] = useState([]);
+  const query = searchParams.get('movie_search') ?? '';
+  const location = useLocation();
 
-    useEffect(() => {
-        if(!query) {
-            setSearchParams(prevSearchParams => prevSearchParams.delete('movie_search'));
-            setMovies([]);
-            return;
-        }
-        searchMovie(query).then(setMovies)
-    }, [query, setSearchParams]);
-    return (
-        <>
-            <MoviesSearch query={query}/>
-            <MovieList movieList={movies} state={location}/>
-        </>
-    )
-}
+  useEffect(() => {
+    if (!query) {
+      setSearchParams(prevSearchParams =>
+        prevSearchParams.delete('movie_search')
+      );
+      setMovies([]);
+      return;
+    }
+    searchMovie(query).then(setMovies);
+  }, [query, setSearchParams]);
+  return (
+    <>
+      <MoviesSearch query={query} />
+      {movies.length === 0 && query ? (
+        <h2>There're no results on "{query}" query</h2>
+      ) : (
+        <MovieList movieList={movies} state={location} />
+      )}
+    </>
+  );
+};
 
 export default MovieSearchPage;
